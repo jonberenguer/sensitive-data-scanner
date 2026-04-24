@@ -1,0 +1,7 @@
+# Build output — binaries extracted by build.sh / build.ps1
+/build/
+/fixtures/
+
+# Logs
+*.log
+.built

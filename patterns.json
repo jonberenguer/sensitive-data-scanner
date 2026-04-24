@@ -1,0 +1,175 @@
+{
+  "version": "1.0",
+  "patterns": [
+    {
+      "id": "aws-access-key-id",
+      "name": "AWS Access Key ID",
+      "description": "AWS IAM access keys always begin with AKIA followed by 16 uppercase alphanumeric chars",
+      "pattern": "\\bAKIA[0-9A-Z]{16}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "aws-secret-access-key",
+      "name": "AWS Secret Access Key",
+      "description": "Context-anchored to the label; captures the 40-char base64-like secret",
+      "pattern": "(?:aws[_\\-\\s]?secret[_\\-\\s]?(?:access[_\\-\\s]?)?key|AWS_SECRET_ACCESS_KEY)\\s*[=:]\\s*['\"]?([A-Za-z0-9/+=]{40})['\"]?",
+      "caseInsensitive": true,
+      "captureGroup": 1
+    },
+    {
+      "id": "gcp-api-key",
+      "name": "GCP API Key",
+      "description": "Google Cloud API keys start with AIza followed by 35 alphanumeric chars",
+      "pattern": "\\bAIza[0-9A-Za-z]{35}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "gcp-service-account",
+      "name": "GCP Service Account Key",
+      "description": "GCP service account JSON key identified by the unique client_email field (*.iam.gserviceaccount.com)",
+      "pattern": "\"client_email\"\\s*:\\s*\"([a-z0-9\\-_.]+@[a-z0-9\\-]+\\.iam\\.gserviceaccount\\.com)\"",
+      "caseInsensitive": false,
+      "captureGroup": 1
+    },
+    {
+      "id": "github-pat-classic",
+      "name": "GitHub Personal Access Token (classic)",
+      "description": "ghp_ = personal, gho_ = OAuth app, ghu_ = user-to-server, ghs_ = server-to-server, ghr_ = refresh",
+      "pattern": "\\bgh[pousr]_[A-Za-z0-9]{36}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "github-fine-grained-token",
+      "name": "GitHub Fine-grained Token",
+      "description": "Fine-grained personal access tokens with github_pat_ prefix and 82-char suffix",
+      "pattern": "\\bgithub_pat_[A-Za-z0-9_]{82}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "slack-token",
+      "name": "Slack Bot/User/App Token",
+      "description": "xoxb = bot, xoxp = user, xoxa = app, xoxs = workspace",
+      "pattern": "\\bxox[baps]-[0-9A-Za-z\\-]{10,48}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "stripe-secret-key",
+      "name": "Stripe Secret Key",
+      "description": "Stripe secret API keys with sk_live_ or sk_test_ prefix",
+      "pattern": "\\bsk_(?:live|test)_[A-Za-z0-9]{24,99}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "stripe-publishable-key",
+      "name": "Stripe Publishable Key",
+      "description": "Stripe publishable API keys with pk_live_ or pk_test_ prefix",
+      "pattern": "\\bpk_(?:live|test)_[A-Za-z0-9]{24,99}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "sendgrid-api-key",
+      "name": "SendGrid API Key",
+      "description": "SendGrid API keys begin with SG. followed by two base64url segments",
+      "pattern": "\\bSG\\.[A-Za-z0-9\\-_]{22}\\.[A-Za-z0-9\\-_]{43}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "twilio-auth-token",
+      "name": "Twilio Auth Token",
+      "description": "Context-anchored to TWILIO_ prefix; captures the 32-char lowercase hex token",
+      "pattern": "TWILIO[_A-Z]*\\s*[=:]\\s*['\"]?([a-f0-9]{32})['\"]?",
+      "caseInsensitive": true,
+      "captureGroup": 1
+    },
+    {
+      "id": "bearer-token",
+      "name": "Bearer Token (HTTP header)",
+      "description": "Captures the token value after the Bearer keyword",
+      "pattern": "\\bBearer\\s+([A-Za-z0-9\\-._~+/]+=*)",
+      "caseInsensitive": false,
+      "captureGroup": 1
+    },
+    {
+      "id": "jwt",
+      "name": "JSON Web Token (JWT)",
+      "description": "Three base64url segments; first two always start with ey when decoded from JSON",
+      "pattern": "\\bey[A-Za-z0-9\\-_]{10,}\\.ey[A-Za-z0-9\\-_]{10,}\\.[A-Za-z0-9\\-_.+/]{10,}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "generic-api-key",
+      "name": "Generic API Key",
+      "description": "Requires a recognizable label; captures the key value (min 16 chars to reduce noise)",
+      "pattern": "(?:api[_\\-]?key|apikey|api[_\\-]?secret|client[_\\-]?secret)\\s*[=:]\\s*['\"]?([A-Za-z0-9\\-_]{16,})['\"]?",
+      "caseInsensitive": true,
+      "captureGroup": 1
+    },
+    {
+      "id": "generic-secret-token",
+      "name": "Generic Secret / Token",
+      "description": "Context-anchored to common token field names",
+      "pattern": "(?:^|[\\s,{\\[])(?:secret|auth_token|access_token|refresh_token|private_token)\\s*[=:]\\s*['\"]?([A-Za-z0-9\\-_./+=]{16,})['\"]?",
+      "caseInsensitive": true,
+      "captureGroup": 1
+    },
+    {
+      "id": "generic-password",
+      "name": "Generic Password Field",
+      "description": "Context-anchored; captures assigned value (6+ non-whitespace chars)",
+      "pattern": "(?:password|passwd|pwd)\\s*[=:]\\s*['\"]?([^\\s'\"]{6,})['\"]?",
+      "caseInsensitive": true,
+      "captureGroup": 1
+    },
+    {
+      "id": "private-key-pem",
+      "name": "Private Key (PEM header)",
+      "description": "Detects the header line of a PEM-encoded private key block",
+      "pattern": "-----BEGIN (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
+      "caseInsensitive": false,
+      "captureGroup": 0
+    },
+    {
+      "id": "database-connection-string",
+      "name": "Database Connection String",
+      "description": "Covers MongoDB (plain and SRV), MySQL, PostgreSQL, Redis, and generic JDBC",
+      "pattern": "(?:mongodb(?:\\+srv)?|mysql|postgresql|postgres|redis(?:s)?|jdbc:[\\w]+)://[^\\s'\"<>\\n]+",
+      "caseInsensitive": true,
+      "captureGroup": 0
+    },
+    {
+      "id": "azure-storage-connection-string",
+      "name": "Azure Storage Connection String",
+      "description": "Azure Storage SDK format; AccountKey is always 88 base64 chars (512-bit key)",
+      "pattern": "DefaultEndpointsProtocol=https?;[^\"'\\s\\n]*AccountKey=[A-Za-z0-9+/=]{80,90}",
+      "caseInsensitive": true,
+      "captureGroup": 0
+    },
+    {
+      "id": "ssn",
+      "name": "Social Security Number (SSN)",
+      "description": "US SSN format; invalid ranges (000, 666, 900-999) and zero group/serial are filtered by validator",
+      "pattern": "\\b\\d{3}-\\d{2}-\\d{4}\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0,
+      "validator": "ssn"
+    },
+    {
+      "id": "credit-card",
+      "name": "Credit Card Number",
+      "description": "Strict BIN-range patterns: Visa, Mastercard, Amex, Discover (no spaces or dashes); Luhn check filters false positives",
+      "pattern": "\\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|6(?:011|5[0-9]{2})[0-9]{12})\\b",
+      "caseInsensitive": false,
+      "captureGroup": 0,
+      "validator": "luhn"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+.git
+.built
+build/
+*.log
+node/
